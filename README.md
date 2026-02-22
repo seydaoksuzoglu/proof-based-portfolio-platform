@@ -5,6 +5,7 @@
 - **Ali Akbayrak** - 25100011409
 - **Elif İpek Kaynar** - 24100011007
 - **Mustafa Pekkirişci** - 25100011405
+- **Rabia Şahin** - 25100011404
 - **Selime Buse Yanal** - 24100011817
 - **Şeyda Öksüzoğlu** - 25100011471
 
