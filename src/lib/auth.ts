@@ -1,6 +1,6 @@
 import { getIronSession } from "iron-session"
 import { cookies } from "next/headers"
-
+import { AuthenticationError } from "./errors"
 /**
  * Session verisi: iron-session cookie içinde şifreli olarak saklanır.
  * Sunucu tarafında session kaydı tutulmaz (stateless).
@@ -37,7 +37,7 @@ export async function getSession() {
 export async function requireAuth(): Promise<SessionData> {
   const session = await getSession()
   if (!session.userId) {
-    throw new Error("Unauthorized")
+    throw new AuthenticationError("Unauthorized")
   }
   return { userId: session.userId, email: session.email }
 }
