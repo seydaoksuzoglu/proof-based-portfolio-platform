@@ -42,5 +42,5 @@ next-env.d.ts
 .claude
 CLAUDE.md
 
-implementation-plan.md
-prd.md
+docs/implementation-plan.md
+docs/prd.md
