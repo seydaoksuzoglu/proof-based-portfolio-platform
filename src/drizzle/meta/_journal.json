@@ -8,6 +8,13 @@
       "when": 1778253029565,
       "tag": "0000_mature_banshee",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1778329879630,
+      "tag": "0001_lush_kid_colt",
+      "breakpoints": true
     }
   ]
 }
