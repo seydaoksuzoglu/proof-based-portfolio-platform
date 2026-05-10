@@ -44,5 +44,5 @@ next-env.d.ts
 CLAUDE.md
 
 # Local-only living docs
-docs/prd.md
-docs/implementation-plan.md
+src/docs/prd.md
+src/docs/implementation-plan.md
