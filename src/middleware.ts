@@ -38,5 +38,6 @@ export const config = {
     "/api/portfolio/:path*",
     "/api/projects/:path*",
     "/api/links/:path*",
+    "/api/user/:path*"
   ],
 }
