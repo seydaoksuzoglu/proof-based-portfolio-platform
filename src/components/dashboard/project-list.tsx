@@ -106,61 +106,61 @@ export function ProjectList({ initialProjects }: ProjectListProps) {
   }
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2">
+    <div className="grid gap-6 sm:grid-cols-2">
       {projects.map((proj) => (
         <div
           key={proj.id}
-          className="group relative rounded-lg border bg-card p-4 transition-colors hover:bg-accent/5"
+          className="group relative overflow-hidden rounded-3xl border bg-card p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
         >
           {/* Kapak Görseli */}
           {proj.imageUrl && (
-            <div className="mb-3 aspect-video overflow-hidden rounded-md bg-muted">
+            <div className="mb-4 aspect-video overflow-hidden rounded-2xl bg-muted">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={proj.imageUrl}
                 alt={proj.title}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
             </div>
           )}
 
           {/* Başlık + Görünürlük */}
-          <div className="flex items-start justify-between gap-2">
+          <div className="flex items-start justify-between gap-3">
             <div className="min-w-0 flex-1">
-              <h4 className="truncate text-sm font-semibold">{proj.title}</h4>
+              <h4 className="truncate font-semibold">{proj.title}</h4>
               {proj.description && (
-                <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
+                <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground leading-relaxed">
                   {proj.description}
                 </p>
               )}
             </div>
-            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
               {proj.isVisible ? (
-                <Eye className="size-3.5" />
+                <Eye className="size-4" />
               ) : (
-                <EyeOff className="size-3.5" />
+                <EyeOff className="size-4" />
               )}
               <Switch
                 checked={proj.isVisible}
                 onCheckedChange={() => handleToggle(proj.id)}
                 disabled={isPending}
                 aria-label="Görünürlük"
-                className="scale-75"
+                className="scale-90"
               />
             </div>
           </div>
 
           {/* Linkler */}
           {(proj.demoUrl || proj.githubUrl) && (
-            <div className="mt-2 flex gap-2">
+            <div className="mt-4 flex gap-3">
               {proj.demoUrl && (
                 <a
                   href={proj.demoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
                 >
-                  <ExternalLink className="size-3" />
+                  <ExternalLink className="size-4" />
                   Demo
                 </a>
               )}
@@ -169,9 +169,9 @@ export function ProjectList({ initialProjects }: ProjectListProps) {
                   href={proj.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
                 >
-                  <GitFork className="size-3" />
+                  <GitFork className="size-4" />
                   GitHub
                 </a>
               )}
@@ -179,7 +179,7 @@ export function ProjectList({ initialProjects }: ProjectListProps) {
           )}
 
           {/* Aksiyonlar */}
-          <div className="mt-3 flex items-center gap-1 border-t pt-3">
+          <div className="mt-5 flex items-center justify-end gap-1 border-t pt-3 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
             <ProjectModal
               initialValues={{
                 id: proj.id,
@@ -190,8 +190,8 @@ export function ProjectList({ initialProjects }: ProjectListProps) {
                 imageUrl: proj.imageUrl ?? "",
               }}
               trigger={
-                <Button variant="ghost" size="sm" className="h-7 px-2">
-                  <Pencil className="mr-1 size-3.5" />
+                <Button variant="ghost" size="sm" className="h-8 px-3 rounded-full">
+                  <Pencil className="mr-1.5 size-3.5" />
                   Düzenle
                 </Button>
               }
@@ -201,9 +201,9 @@ export function ProjectList({ initialProjects }: ProjectListProps) {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-7 px-2 text-destructive hover:text-destructive"
+                  className="h-8 px-3 text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full"
                 >
-                  <Trash2 className="mr-1 size-3.5" />
+                  <Trash2 className="mr-1.5 size-3.5" />
                   Sil
                 </Button>
               </AlertDialogTrigger>

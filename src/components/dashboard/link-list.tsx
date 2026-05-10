@@ -112,33 +112,33 @@ export function LinkList({ initialLinks }: LinkListProps) {
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {links.map((l) => (
         <div
           key={l.id}
-          className="flex items-center gap-3 rounded-lg border bg-card p-3 transition-colors hover:bg-accent/5"
+          className="group flex items-center gap-4 rounded-2xl border bg-card p-4 shadow-sm transition-all hover:bg-accent/5 hover:shadow-md"
         >
           {/* İkon */}
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-muted">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-muted/50 text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
             <IconForName name={l.icon} />
           </div>
 
           {/* Bilgi */}
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-medium">{l.title}</p>
+            <p className="truncate font-semibold">{l.title}</p>
             <a
               href={l.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 truncate text-xs text-muted-foreground hover:text-primary"
+              className="flex items-center gap-1.5 truncate text-sm text-muted-foreground hover:text-primary transition-colors"
             >
-              <ExternalLink className="size-3 shrink-0" />
+              <ExternalLink className="size-3.5 shrink-0" />
               {l.url}
             </a>
           </div>
 
           {/* Aksiyonlar */}
-          <div className="flex items-center gap-0.5">
+          <div className="flex items-center gap-1 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
             <LinkModal
               initialValues={{
                 id: l.id,
@@ -147,8 +147,8 @@ export function LinkList({ initialLinks }: LinkListProps) {
                 icon: l.icon ?? "",
               }}
               trigger={
-                <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
-                  <Pencil className="size-3.5" />
+                <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full">
+                  <Pencil className="size-4" />
                 </Button>
               }
             />
@@ -156,10 +156,10 @@ export function LinkList({ initialLinks }: LinkListProps) {
               <AlertDialogTrigger asChild>
                 <Button
                   variant="ghost"
-                  size="sm"
-                  className="h-7 w-7 p-0 text-destructive hover:text-destructive"
+                  size="icon"
+                  className="h-9 w-9 text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full"
                 >
-                  <Trash2 className="size-3.5" />
+                  <Trash2 className="size-4" />
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>

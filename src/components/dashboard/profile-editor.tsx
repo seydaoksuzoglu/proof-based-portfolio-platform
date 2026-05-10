@@ -86,36 +86,38 @@ export function ProfileEditor({ initialProfile }: ProfileEditorProps) {
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
       {/* fullName */}
-      <div className="space-y-1.5">
-        <Label htmlFor="fullName">Ad Soyad</Label>
+      <div className="space-y-2">
+        <Label htmlFor="fullName" className="text-sm font-medium">Ad Soyad</Label>
         <Input
           id="fullName"
           {...form.register("fullName")}
           maxLength={FULLNAME_MAX}
           placeholder="Adın ve soyadın"
+          className="bg-muted/50 transition-colors focus-visible:bg-background"
         />
         {form.formState.errors.fullName && (
-          <p className="text-xs text-destructive">
+          <p className="text-xs text-destructive font-medium">
             {form.formState.errors.fullName.message}
           </p>
         )}
       </div>
 
       {/* bio + karakter sayacı */}
-      <div className="space-y-1.5">
-        <Label htmlFor="bio">Bio</Label>
+      <div className="space-y-2">
+        <Label htmlFor="bio" className="text-sm font-medium">Bio</Label>
         <Textarea
           id="bio"
           {...form.register("bio")}
           maxLength={BIO_MAX}
           rows={4}
           placeholder="Kendinden kısaca bahset..."
+          className="bg-muted/50 transition-colors focus-visible:bg-background resize-none"
         />
         <div className="flex items-center justify-between text-xs">
           {form.formState.errors.bio ? (
-            <p className="text-destructive">
+            <p className="text-destructive font-medium">
               {form.formState.errors.bio.message}
             </p>
           ) : (
@@ -123,7 +125,7 @@ export function ProfileEditor({ initialProfile }: ProfileEditorProps) {
           )}
           <span
             className={cn(
-              "text-muted-foreground tabular-nums",
+              "text-muted-foreground tabular-nums font-medium",
               bioLen > BIO_MAX * 0.9 && "text-amber-600",
               bioLen >= BIO_MAX && "text-destructive",
             )}
@@ -134,24 +136,26 @@ export function ProfileEditor({ initialProfile }: ProfileEditorProps) {
       </div>
 
       {/* avatarUrl */}
-      <div className="space-y-1.5">
-        <Label htmlFor="avatarUrl">Avatar URL</Label>
+      <div className="space-y-2">
+        <Label htmlFor="avatarUrl" className="text-sm font-medium">Avatar URL</Label>
         <Input
           id="avatarUrl"
           type="url"
           {...form.register("avatarUrl")}
           placeholder="https://..."
+          className="bg-muted/50 transition-colors focus-visible:bg-background"
         />
         {form.formState.errors.avatarUrl && (
-          <p className="text-xs text-destructive">
+          <p className="text-xs text-destructive font-medium">
             {form.formState.errors.avatarUrl.message}
           </p>
         )}
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end pt-2">
         <Button
           type="submit"
+          className="rounded-full px-6"
           disabled={
             form.formState.isSubmitting ||
             isPending ||
