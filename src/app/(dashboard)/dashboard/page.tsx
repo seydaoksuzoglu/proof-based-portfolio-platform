@@ -1,7 +1,11 @@
 import Link from "next/link"
 
+import { LinkList } from "@/components/dashboard/link-list"
+import { LinkModal } from "@/components/dashboard/link-modal"
 import { OnboardingModal } from "@/components/dashboard/onboarding-modal"
 import { ProfileEditor } from "@/components/dashboard/profile-editor"
+import { ProjectList } from "@/components/dashboard/project-list"
+import { ProjectModal } from "@/components/dashboard/project-modal"
 import { PublishToggle } from "@/components/dashboard/publish-toggle"
 import { ThemeSelector } from "@/components/dashboard/theme-selector"
 import { Badge } from "@/components/ui/badge"
@@ -12,15 +16,16 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { requireAuth } from "@/lib/auth"
+import { LinkController } from "@/lib/controllers/link-controller"
 import { PortfolioController } from "@/lib/controllers/portfolio-controller"
+import { ProjectController } from "@/lib/controllers/project-controller"
 import { UserController } from "@/lib/controllers/user-controller"
 
-
 /**
- * Plan 2.3 — Dashboard ana sayfa.
- * Server component: oturum kullanıcısının profil + portföyünü BCE üzerinden yükler.
+ * Plan 2.3 + 3.5 — Dashboard ana sayfa.
+ * Server component: oturum kullanıcısının profil + portföy + projeler + linklerini BCE üzerinden yükler.
  * - Portföy yoksa → OnboardingModal (slug + tema seçimi)
- * - Varsa → 3 kart: Portföyün özeti / Profil editörü / Yönetim (Publish + Theme)
+ * - Varsa → 5 kart: Portföy özeti / Profil editörü / Yönetim / Projeler / Bağlantılar
  */
 export default async function DashboardPage() {
   const session = await requireAuth()
@@ -48,6 +53,12 @@ export default async function DashboardPage() {
       </>
     )
   }
+
+  // ─── İçerikleri paralel yükle ──────────────────────────────────
+  const [projects, links] = await Promise.all([
+    ProjectController.getProjectsByUser(session.userId),
+    LinkController.getLinksByUser(session.userId),
+  ])
 
   // ─── Mevcut portföy ────────────────────────────────────────────
   return (
@@ -109,6 +120,34 @@ export default async function DashboardPage() {
           <ThemeSelector
             portfolioId={portfolio.id}
             initialTheme={portfolio.theme}
+          />
+        </CardContent>
+      </Card>
+
+      {/* ─── Sprint 3: Projeler ──────────────────────────────────── */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0">
+          <CardTitle>Projeler</CardTitle>
+          <ProjectModal buttonId="add-project-trigger" />
+        </CardHeader>
+        <CardContent>
+          <ProjectList
+            key={projects.map((p) => p.id).join()}
+            initialProjects={projects}
+          />
+        </CardContent>
+      </Card>
+
+      {/* ─── Sprint 3: Bağlantılar ──────────────────────────────── */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0">
+          <CardTitle>Bağlantılar</CardTitle>
+          <LinkModal buttonId="add-link-trigger" />
+        </CardHeader>
+        <CardContent>
+          <LinkList
+            key={links.map((l) => l.id).join()}
+            initialLinks={links}
           />
         </CardContent>
       </Card>

@@ -33,10 +33,8 @@ export function PublishToggle({
   const [isPending, startTransition] = useTransition()
   const [copied, setCopied] = useState(false)
 
-  const publicUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/${slug}`
-      : `/${slug}`
+  // Göreli path — SSR ve CSR'de aynı (hydration güvenli)
+  const slugPath = `/${slug}`
 
   async function handleToggle(next: boolean) {
     const previous = isPublished
@@ -60,7 +58,9 @@ export function PublishToggle({
 
   async function copyUrl() {
     try {
-      await navigator.clipboard.writeText(publicUrl)
+      // Full URL yalnızca event handler'da hesaplanır (hydration güvenli)
+      const fullUrl = `${window.location.origin}${slugPath}`
+      await navigator.clipboard.writeText(fullUrl)
       setCopied(true)
       toast.success("URL kopyalandı")
       setTimeout(() => setCopied(false), 2000)
@@ -90,7 +90,7 @@ export function PublishToggle({
 
       {isPublished && (
         <div className="flex items-center gap-1 rounded-md border bg-muted/30 p-2">
-          <code className="flex-1 truncate text-xs">{publicUrl}</code>
+          <code className="flex-1 truncate text-xs">{slugPath}</code>
           <Button
             type="button"
             size="sm"
@@ -112,7 +112,7 @@ export function PublishToggle({
             className="h-7 px-2"
             aria-label="Yeni sekmede aç"
           >
-            <a href={publicUrl} target="_blank" rel="noopener noreferrer">
+            <a href={slugPath} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="size-4" />
             </a>
           </Button>
@@ -121,3 +121,4 @@ export function PublishToggle({
     </div>
   )
 }
+
