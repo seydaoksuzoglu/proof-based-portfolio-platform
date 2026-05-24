@@ -127,3 +127,27 @@
     @apply font-sans;
     }
 }
+
+/* ─── Public Portfolio Tema Sistemi (PRD §11.3) ─────────────────────── */
+
+[data-theme="minimal-light"] {
+  --portfolio-bg: #ffffff;
+  --portfolio-fg: #0a0a0a;
+  --portfolio-card: #ffffff;
+  --portfolio-muted: #f5f5f5;
+  --portfolio-muted-fg: #737373;
+  --portfolio-border: #e5e5e5;
+  --portfolio-accent: #2563eb;
+  --portfolio-accent-fg: #ffffff;
+}
+
+[data-theme="minimal-dark"] {
+  --portfolio-bg: #0a0a0a;
+  --portfolio-fg: #fafafa;
+  --portfolio-card: #171717;
+  --portfolio-muted: #262626;
+  --portfolio-muted-fg: #a3a3a3;
+  --portfolio-border: #2e2e2e;
+  --portfolio-accent: #3b82f6;
+  --portfolio-accent-fg: #ffffff;
+}

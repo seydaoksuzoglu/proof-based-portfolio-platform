@@ -2,6 +2,11 @@ import { RegisterForm } from "@/components/auth/register-form";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
+export const metadata = {
+  title: "Kayıt Ol",
+  description: "ProofPortfolio hesabı oluşturun ve portföyünüzü hazırlayın.",
+};
+
 export default function RegisterPage() {
   return (
     <Card className="w-full max-w-sm">

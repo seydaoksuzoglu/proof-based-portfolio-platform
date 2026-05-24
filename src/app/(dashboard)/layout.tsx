@@ -28,6 +28,12 @@ export default async function DashboardLayout({
             <span className="text-sm text-muted-foreground">
               {session.email}
             </span>
+            <Link
+              href="/settings"
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Ayarlar
+            </Link>
             <LogoutButton />
           </div>
         </div>

@@ -35,9 +35,12 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/dashboard/:path*",
+    "/settings/:path*",
     "/api/portfolio/:path*",
     "/api/projects/:path*",
     "/api/links/:path*",
-    "/api/user/:path*"
+    "/api/user/:path*",
+    "/api/github/:path*",
+    "/api/account/:path*",
   ],
 }

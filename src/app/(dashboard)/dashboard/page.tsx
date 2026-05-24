@@ -1,6 +1,6 @@
-import Link from "next/link"
 import { ExternalLink } from "lucide-react"
 
+import { GitHubImport } from "@/components/dashboard/github-import"
 import { LinkList } from "@/components/dashboard/link-list"
 import { LinkModal } from "@/components/dashboard/link-modal"
 import { OnboardingModal } from "@/components/dashboard/onboarding-modal"
@@ -136,6 +136,7 @@ export default async function DashboardPage() {
               <h2 className="text-xl font-semibold tracking-tight">Projeler</h2>
               <ProjectModal buttonId="add-project-trigger" />
             </div>
+            <GitHubImport />
             <ProjectList
               key={projects.map((p) => p.id).join()}
               initialProjects={projects}

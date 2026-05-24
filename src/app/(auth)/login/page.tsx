@@ -2,6 +2,11 @@ import { LoginForm } from "@/components/auth/login-form";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
+export const metadata = {
+  title: "Giriş Yap",
+  description: "ProofPortfolio hesabınıza giriş yapın.",
+};
+
 export default function LoginPage() {
   return (
     <Card className="w-full max-w-sm">

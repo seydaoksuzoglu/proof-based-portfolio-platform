@@ -1,6 +1,8 @@
 import { eq } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
 
+import { fetchGitHubRepos } from "../github"
+
 import { db } from "../db"
 import { project, portfolio } from "../db/schema"
 import {
@@ -156,5 +158,64 @@ export class ProjectController {
 
     revalidatePath(`/${portfolioSlug}`)
     return updated
+  }
+
+  /**
+   * Plan 4.2.2 — GitHub'dan public repo'ları import et.
+   * Çakışma yönetimi: aynı githubUrl varsa update, yoksa create.
+   * PRD §8.1: importFromGitHub.
+   */
+  static async importFromGitHub(
+    portfolioId: string,
+    userId: string,
+    githubUsername: string,
+  ): Promise<{ imported: number; updated: number }> {
+    const p = await this.getPortfolioForUser(portfolioId, userId)
+
+    const repos = await fetchGitHubRepos(githubUsername)
+
+    // Mevcut projeleri githubUrl ile eşleştir
+    const existingProjects = await db
+      .select()
+      .from(project)
+      .where(eq(project.portfolioId, portfolioId))
+
+    const existingByGithubUrl = new Map(
+      existingProjects
+        .filter((pr) => pr.githubUrl)
+        .map((pr) => [pr.githubUrl!, pr]),
+    )
+
+    let imported = 0
+    let updated = 0
+
+    for (const repo of repos) {
+      const existing = existingByGithubUrl.get(repo.html_url)
+
+      if (existing) {
+        // Update: sadece description güncelle (kullanıcının title/diğer değişikliklerine dokunma)
+        await db
+          .update(project)
+          .set({
+            description: repo.description ?? existing.description,
+            demoUrl: repo.homepage || existing.demoUrl,
+          })
+          .where(eq(project.id, existing.id))
+        updated++
+      } else {
+        // Create: yeni proje oluştur
+        await db.insert(project).values({
+          portfolioId,
+          title: repo.name,
+          description: repo.description ?? null,
+          githubUrl: repo.html_url,
+          demoUrl: repo.homepage || null,
+        })
+        imported++
+      }
+    }
+
+    revalidatePath(`/${p.slug}`)
+    return { imported, updated }
   }
 }
