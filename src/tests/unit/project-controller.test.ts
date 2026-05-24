@@ -48,21 +48,23 @@ describe("ProjectController", () => {
     it("creates a project when portfolio ownership is valid", async () => {
       // getPortfolioForUser (select → from → where → limit)
       vi.mocked(db.select).mockReturnValueOnce(
-        chainable([{ id: "p1", slug: "test-slug", userId: "u1" }]) as never,
+        chainable([{ id: "p1", slug: "test-slug", userId: "u1" }]) as never
       )
       // insert → values → returning
       vi.mocked(db.insert).mockReturnValue(
-        chainable([{
-          id: "proj1",
-          portfolioId: "p1",
-          title: "Test Project",
-          description: null,
-          imageUrl: null,
-          demoUrl: null,
-          githubUrl: null,
-          isVisible: true,
-          createdAt: new Date(),
-        }]) as never,
+        chainable([
+          {
+            id: "proj1",
+            portfolioId: "p1",
+            title: "Test Project",
+            description: null,
+            imageUrl: null,
+            demoUrl: null,
+            githubUrl: null,
+            isVisible: true,
+            createdAt: new Date(),
+          },
+        ]) as never
       )
 
       const result = await ProjectController.createProject("p1", "u1", {
@@ -75,11 +77,13 @@ describe("ProjectController", () => {
 
     it("throws AuthorizationError when user doesn't own portfolio", async () => {
       vi.mocked(db.select).mockReturnValueOnce(
-        chainable([{ id: "p1", slug: "test-slug", userId: "other-user" }]) as never,
+        chainable([
+          { id: "p1", slug: "test-slug", userId: "other-user" },
+        ]) as never
       )
 
       await expect(
-        ProjectController.createProject("p1", "u1", { title: "Test" }),
+        ProjectController.createProject("p1", "u1", { title: "Test" })
       ).rejects.toBeInstanceOf(AuthorizationError)
     })
 
@@ -87,7 +91,7 @@ describe("ProjectController", () => {
       vi.mocked(db.select).mockReturnValueOnce(chainable([]) as never)
 
       await expect(
-        ProjectController.createProject("p1", "u1", { title: "Test" }),
+        ProjectController.createProject("p1", "u1", { title: "Test" })
       ).rejects.toBeInstanceOf(NotFoundError)
     })
   })
@@ -96,23 +100,27 @@ describe("ProjectController", () => {
     it("toggles isVisible from true to false", async () => {
       // getProjectWithOwnership: select project
       vi.mocked(db.select).mockReturnValueOnce(
-        chainable([{
-          id: "proj1",
-          portfolioId: "p1",
-          title: "Test",
-          isVisible: true,
-        }]) as never,
+        chainable([
+          {
+            id: "proj1",
+            portfolioId: "p1",
+            title: "Test",
+            isVisible: true,
+          },
+        ]) as never
       )
       // getPortfolioForUser: select portfolio
       vi.mocked(db.select).mockReturnValueOnce(
-        chainable([{ id: "p1", slug: "slug", userId: "u1" }]) as never,
+        chainable([{ id: "p1", slug: "slug", userId: "u1" }]) as never
       )
       // update → set → where → returning
       vi.mocked(db.update).mockReturnValue(
-        chainable([{
-          id: "proj1",
-          isVisible: false,
-        }]) as never,
+        chainable([
+          {
+            id: "proj1",
+            isVisible: false,
+          },
+        ]) as never
       )
 
       const result = await ProjectController.toggleVisibility("proj1", "u1")
@@ -124,19 +132,17 @@ describe("ProjectController", () => {
     it("deletes project with valid ownership", async () => {
       // select project
       vi.mocked(db.select).mockReturnValueOnce(
-        chainable([{ id: "proj1", portfolioId: "p1" }]) as never,
+        chainable([{ id: "proj1", portfolioId: "p1" }]) as never
       )
       // select portfolio
       vi.mocked(db.select).mockReturnValueOnce(
-        chainable([{ id: "p1", slug: "slug", userId: "u1" }]) as never,
+        chainable([{ id: "p1", slug: "slug", userId: "u1" }]) as never
       )
       // delete
-      vi.mocked(db.delete).mockReturnValue(
-        chainable(undefined) as never,
-      )
+      vi.mocked(db.delete).mockReturnValue(chainable(undefined) as never)
 
       await expect(
-        ProjectController.deleteProject("proj1", "u1"),
+        ProjectController.deleteProject("proj1", "u1")
       ).resolves.toBeUndefined()
     })
   })
@@ -145,7 +151,7 @@ describe("ProjectController", () => {
     it("imports new repos and updates existing ones", async () => {
       // getPortfolioForUser
       vi.mocked(db.select).mockReturnValueOnce(
-        chainable([{ id: "p1", slug: "slug", userId: "u1" }]) as never,
+        chainable([{ id: "p1", slug: "slug", userId: "u1" }]) as never
       )
 
       // fetchGitHubRepos
@@ -176,7 +182,7 @@ describe("ProjectController", () => {
             description: "Old desc",
             demoUrl: null,
           },
-        ]) as never,
+        ]) as never
       )
 
       // update for existing
@@ -184,7 +190,11 @@ describe("ProjectController", () => {
       // insert for new
       vi.mocked(db.insert).mockReturnValue(chainable(undefined) as never)
 
-      const result = await ProjectController.importFromGitHub("p1", "u1", "user")
+      const result = await ProjectController.importFromGitHub(
+        "p1",
+        "u1",
+        "user"
+      )
       expect(result.imported).toBe(1)
       expect(result.updated).toBe(1)
     })
