@@ -1,5 +1,5 @@
 "use client"
-
+import { PORTFOLIO_THEMES } from "@/lib/portfolio-themes"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, Loader2, X } from "lucide-react"
 import { useRouter } from "next/navigation"
@@ -26,21 +26,6 @@ import { createPortfolioSchema } from "@/lib/validators/portfolio"
 // input'ta optional, output'ta required. RHF 3-generic API ile ayırıyoruz.
 type OnboardingFormInput = z.input<typeof createPortfolioSchema>
 type OnboardingFormOutput = z.output<typeof createPortfolioSchema>
-
-const THEMES = [
-  {
-    id: "minimal-light",
-    name: "Minimal Light",
-    bg: "bg-white",
-    accent: "bg-zinc-300",
-  },
-  {
-    id: "minimal-dark",
-    name: "Minimal Dark",
-    bg: "bg-zinc-900",
-    accent: "bg-zinc-600",
-  },
-]
 
 type SlugStatus =
   | { state: "idle" }
@@ -196,7 +181,7 @@ export function OnboardingModal() {
           <div className="space-y-1.5">
             <Label>Tema</Label>
             <div className="grid grid-cols-2 gap-3">
-              {THEMES.map((t) => {
+              {PORTFOLIO_THEMES.map((t) => {
                 const isActive = themeValue === t.id
                 return (
                   <button

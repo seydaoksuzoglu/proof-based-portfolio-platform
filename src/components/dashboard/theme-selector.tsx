@@ -7,32 +7,7 @@ import { toast } from "sonner"
 
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
-
-interface ThemeOption {
-  id: string
-  name: string
-  bg: string
-  accent: string
-}
-
-/**
- * Mevcut tema seçenekleri. Plan'da iki tane: light + dark.
- * ID değerleri DB'ye yazılır (portfolio.theme); ad sadece UI'da gösterilir.
- */
-const THEMES: ThemeOption[] = [
-  {
-    id: "minimal-light",
-    name: "Minimal Light",
-    bg: "bg-white",
-    accent: "bg-zinc-300",
-  },
-  {
-    id: "minimal-dark",
-    name: "Minimal Dark",
-    bg: "bg-zinc-900",
-    accent: "bg-zinc-600",
-  },
-]
+import { PORTFOLIO_THEMES } from "@/lib/portfolio-themes"
 
 interface ThemeSelectorProps {
   portfolioId: string
@@ -41,8 +16,8 @@ interface ThemeSelectorProps {
 
 /**
  * Plan 2.3.3 — Tema seçici.
- * 2 önizleme kartı; seçim → PATCH /api/portfolio/[id] { theme }.
- * Optimistic UI + rollback (PublishToggle pattern'i).
+ * 6 önizleme kartı; seçim → PATCH /api/portfolio/[id] { theme }.
+ * Tema listesi @/lib/portfolio-themes'ten gelir (onboarding ile DRY).
  */
 export function ThemeSelector({
   portfolioId,
@@ -53,10 +28,10 @@ export function ThemeSelector({
   const [isPending, startTransition] = useTransition()
 
   async function handleSelect(next: string) {
-    if (next === theme) return // aynıysa istek atma
+    if (next === theme) return
 
     const previous = theme
-    setTheme(next) // optimistic
+    setTheme(next)
 
     try {
       const res = await fetch(`/api/portfolio/${portfolioId}`, {
@@ -69,7 +44,7 @@ export function ThemeSelector({
       toast.success("Tema güncellendi")
       startTransition(() => router.refresh())
     } catch {
-      setTheme(previous) // rollback
+      setTheme(previous)
       toast.error("Tema güncellenemedi")
     }
   }
@@ -83,8 +58,8 @@ export function ThemeSelector({
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        {THEMES.map((t) => {
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        {PORTFOLIO_THEMES.map((t) => {
           const isActive = theme === t.id
           return (
             <button
@@ -102,7 +77,6 @@ export function ThemeSelector({
                 isPending && "cursor-wait opacity-50",
               )}
             >
-              {/* Önizleme — basit mockup */}
               <div className={cn("aspect-[4/3] space-y-1.5 p-3", t.bg)}>
                 <div className={cn("h-2 w-1/2 rounded", t.accent)} />
                 <div className={cn("h-1.5 w-3/4 rounded", t.accent)} />
@@ -112,10 +86,9 @@ export function ThemeSelector({
                 </div>
               </div>
 
-              {/* Etiket */}
               <div className="flex items-center justify-between border-t bg-background px-3 py-2">
-                <span className="text-sm font-medium">{t.name}</span>
-                {isActive && <Check className="size-4 text-primary" />}
+                <span className="truncate text-sm font-medium">{t.name}</span>
+                {isActive && <Check className="size-4 shrink-0 text-primary" />}
               </div>
             </button>
           )

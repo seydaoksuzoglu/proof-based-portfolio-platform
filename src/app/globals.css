@@ -130,24 +130,74 @@
 
 /* ─── Public Portfolio Tema Sistemi (PRD §11.3) ─────────────────────── */
 
+/* ─── Public Portfolio Tema Sistemi (PRD §11.3) ─────────────────────── */
+
+/* ─── Public Portfolio Tema Sistemi (PRD §11.3) ─────────────────────── */
+
 [data-theme="minimal-light"] {
   --portfolio-bg: #ffffff;
   --portfolio-fg: #0a0a0a;
   --portfolio-card: #ffffff;
-  --portfolio-muted: #f5f5f5;
-  --portfolio-muted-fg: #737373;
-  --portfolio-border: #e5e5e5;
-  --portfolio-accent: #2563eb;
+  --portfolio-muted: #f4f4f5;
+  --portfolio-muted-fg: #71717a;
+  --portfolio-border: #e4e4e7;
+  --portfolio-accent: #4f46e5;
   --portfolio-accent-fg: #ffffff;
 }
 
 [data-theme="minimal-dark"] {
   --portfolio-bg: #0a0a0a;
   --portfolio-fg: #fafafa;
-  --portfolio-card: #171717;
-  --portfolio-muted: #262626;
-  --portfolio-muted-fg: #a3a3a3;
-  --portfolio-border: #2e2e2e;
-  --portfolio-accent: #3b82f6;
+  --portfolio-card: #18181b;
+  --portfolio-muted: #27272a;
+  --portfolio-muted-fg: #a1a1aa;
+  --portfolio-border: #2e2e35;
+  --portfolio-accent: #a78bfa;
+  --portfolio-accent-fg: #18181b;
+}
+
+[data-theme="mint"] {
+  --portfolio-bg: #ecfdf5;
+  --portfolio-fg: #064e3b;
+  --portfolio-card: #ffffff;
+  --portfolio-muted: #d1fae5;
+  --portfolio-muted-fg: #047857;
+  --portfolio-border: #6ee7b7;
+  --portfolio-accent: #10b981;
   --portfolio-accent-fg: #ffffff;
 }
+
+[data-theme="sky"] {
+  --portfolio-bg: #eff6ff;
+  --portfolio-fg: #0c4a6e;
+  --portfolio-card: #ffffff;
+  --portfolio-muted: #dbeafe;
+  --portfolio-muted-fg: #1e40af;
+  --portfolio-border: #93c5fd;
+  --portfolio-accent: #2563eb;
+  --portfolio-accent-fg: #ffffff;
+}
+
+[data-theme="rose"] {
+  --portfolio-bg: #fef2f7;
+  --portfolio-fg: #500724;
+  --portfolio-card: #ffffff;
+  --portfolio-muted: #fce7f3;
+  --portfolio-muted-fg: #be185d;
+  --portfolio-border: #f9a8d4;
+  --portfolio-accent: #db2777;
+  --portfolio-accent-fg: #ffffff;
+}
+
+[data-theme="amber"] {
+  --portfolio-bg: #fffbeb;
+  --portfolio-fg: #451a03;
+  --portfolio-card: #ffffff;
+  --portfolio-muted: #fef3c7;
+  --portfolio-muted-fg: #b45309;
+  --portfolio-border: #fcd34d;
+  --portfolio-accent: #d97706;
+  --portfolio-accent-fg: #ffffff;
+}
+
+
