@@ -18,8 +18,14 @@ export const updateProfileSchema = z
       .max(500, "Bio en fazla 500 karakter olabilir")
       .optional(),
     avatarUrl: z
-      .union([z.string().url("Geçerli bir URL girin"), z.literal("")])
-      .optional(),
+  .union([
+    z
+      .string()
+      .url("Geçerli bir URL girin")
+      .startsWith("https://", "Avatar URL https:// ile başlamalıdır"),
+    z.literal(""),
+  ])
+  .optional(),
   })
   .refine(
     (data) =>
