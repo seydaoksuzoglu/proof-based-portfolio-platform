@@ -193,17 +193,19 @@ export class AuthController {
 
     const newHash = await this.hashPassword(data.newPassword)
 
-    await db.transaction(async (tx) => {
-      await tx
-        .update(user)
-        .set({ passwordHash: newHash })
-        .where(eq(user.id, record.userId))
+    // Neon HTTP driver transaction desteklemez (yalnızca WebSocket eder).
+    // Sıralı UPDATE'ler — crash arasında kalırsa token TTL (1 saat) güvenlik sağlar
+    // ve kullanıcı yeni reset isteği başlatabilir.
+    await db
+      .update(user)
+      .set({ passwordHash: newHash })
+      .where(eq(user.id, record.userId))
 
-      await tx
-        .update(passwordResetToken)
-        .set({ usedAt: new Date() })
-        .where(eq(passwordResetToken.id, record.id))
-    })
+    await db
+      .update(passwordResetToken)
+      .set({ usedAt: new Date() })
+      .where(eq(passwordResetToken.id, record.id))
+
 
     // Mevcut session'ı sonlandır (diğer cihazlar için TTL ile geçersizleşir)
     const session = await getSession()
