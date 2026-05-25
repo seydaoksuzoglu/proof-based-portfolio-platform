@@ -46,3 +46,4 @@ CLAUDE.md
 # Local-only living docs
 src/docs/prd.md
 src/docs/implementation-plan.md
+docs/smoke/smoke-test.md
